@@ -9,6 +9,5 @@ app.use(routers);
 
 
 
-// ⚠️ SEMPRE por último
 app.use(errorHandler);
 export default app;
