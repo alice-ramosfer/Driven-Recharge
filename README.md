@@ -3,16 +3,16 @@
 🚀 Sobre
 API para gerenciamento de telefones, operadoras e recargas, permitindo cadastro de números, criação de recargas e visualização de um resumo por documento (CPF).
 
-
+---
 ✨ Funcionalidades
 - 📞 Cadastro de telefones
 - 🏷️ Associação com operadoras
 - 💳 Criação de recargas
 - 📄 Listagem de recargas
 - 📊 Resumo consolidado por documento
-
+---
 🔗 Link Deploy Render
-
+---
 🛠 Tecnologias
 - Node.js
 - TypeScript
@@ -20,6 +20,7 @@ API para gerenciamento de telefones, operadoras e recargas, permitindo cadastro 
 - PostgreSQL
 - Joi
 - dotenv
+---
 
 ⚙️ Como rodar
 1️⃣ Clone o repositório  
@@ -29,12 +30,15 @@ DATABASE_URL=postgres://user:password@localhost:5432/db
 PORT=5000  
 4️⃣ Execute: npm run dev  
 
+---
 📬 Rotas
+
 POST /phones  
 POST /recharges  
 GET /recharges/:phoneId  
 GET /summary/:document  
 
+---
 📐 DIAGRAMA (ASCII)
 
 PHONES
@@ -44,19 +48,22 @@ PHONES
 - description
 - document
 - carrier_id (FK -> carriers.id)
-
+---
 RECHARGES
 - id (PK)
 - phone_id (FK -> phones.id)
 - amount
 - created_at
-
+---
 🔗 RELACIONAMENTOS
+
 CARRIERS 1 --- N PHONES  
 PHONES 1 --- N RECHARGES  
 
+---
 🗄️ SQL DE CRIAÇÃO DAS TABELAS
 
+```sql
 CREATE TABLE carriers (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL UNIQUE,
@@ -83,14 +90,11 @@ CREATE TABLE recharges (
   amount NUMERIC(10,2) NOT NULL CHECK (amount BETWEEN 10 AND 1000),
   created_at TIMESTAMP DEFAULT NOW()
 );
-
+```
+---
 📌 Regras de Negócio
 - ❌ Não pode haver números duplicados
 - 📑 Um documento pode ter até 3 números
 - 💰 Recargas entre R$10 e R$1000
-
-
-
-
-
+---
 📄 Projeto acadêmico – Driven Education
