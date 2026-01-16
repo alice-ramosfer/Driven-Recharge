@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import { getSummaryByDocument } from "../services/summary.service";
-// import { getSummaryByDocument } from "../services/summary.service";
-
 
 export async function getSummary(req: Request, res: Response) {
   const { document } = req.params;

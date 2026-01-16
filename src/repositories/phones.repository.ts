@@ -1,8 +1,8 @@
 import { db } from "../database/database";
-import { PhoneInsert } from "../protocols/phone.protocol";
+import { CountResult, PhoneGet, PhoneGetCarrierByPhone, PhoneInsert } from "../protocols/phone.protocol";
 
 export async function findByNumber(number: string) {
-  const result = await db.query(
+  const result = await db.query<PhoneInsert>(
     `SELECT * FROM phones WHERE number = $1`,
     [number]
   );
@@ -10,7 +10,7 @@ export async function findByNumber(number: string) {
 }
 
 export async function countByDocument(document: string) {
-  const result = await db.query(
+  const result = await db.query<CountResult>(
     `SELECT COUNT(*) FROM phones WHERE document = $1`,
     [document]
   );
@@ -18,7 +18,7 @@ export async function countByDocument(document: string) {
 }
 
 export async function insert(phone: PhoneInsert) {
-  const result = await db.query(
+  const result = await db.query<PhoneInsert>(
     `
     INSERT INTO phones (number, document, name, description, carrier_id)
     VALUES ($1, $2, $3, $4, $5)
@@ -37,8 +37,18 @@ export async function insert(phone: PhoneInsert) {
 }
 
 export async function findByDocument(document: string) {
-  const result = await db.query(
-    `SELECT * FROM phones WHERE document = $1`,
+  const result = await db.query<PhoneGet>(
+    `
+    SELECT 
+      id,
+      number,
+      document,
+      name,
+      description,
+      carrier_id
+    FROM phones
+    WHERE document = $1
+    `,
     [document]
   );
 
@@ -46,15 +56,14 @@ export async function findByDocument(document: string) {
 }
 
 export async function findById(id: number) {
-  return db.query(
+  return db.query<PhoneGet>(
     `SELECT * FROM phones WHERE id = $1`,
     [id]
   );
 }
 
-
 export async function findPhonesWithCarrierByDocument(document: string) {
-  const result = await db.query(
+  const result = await db.query <PhoneGetCarrierByPhone>(
     `
     SELECT 
       p.id,

@@ -4,7 +4,7 @@ import { PhoneInsert } from "../protocols/phone.protocol";
 export async function createPhone(phone: PhoneInsert) {
   const existingPhone = await phonesRepository.findByNumber(phone.number);
   if (existingPhone.rowCount>0) {
-    throw { type: "conflict", message: "Número já cadastrado" };
+    throw { type: "conflict", message: "Número já cadastrado" }; 
   }
 
   const phonesCount = await phonesRepository.countByDocument(phone.document);

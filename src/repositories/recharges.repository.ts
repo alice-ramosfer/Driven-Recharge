@@ -1,8 +1,8 @@
 import { db } from "../database/database";
-import { RechargeInsert } from "../protocols/recharge.protocol";
+import { RechargeGetId, RechargeGetNumber, RechargeInsert } from "../protocols/recharge.protocol";
 
 export async function insert(recharge: RechargeInsert) {
-  const result = await db.query(
+  const result = await db.query<RechargeInsert>(
     `
     INSERT INTO recharges (phone_id, amount)
     VALUES ($1, $2)
@@ -16,7 +16,7 @@ export async function insert(recharge: RechargeInsert) {
 
 
 export async function findByPhoneNumber(number: string) {
-  const result = await db.query(
+  const result = await db.query<RechargeGetNumber>(
     `
     SELECT r.*
     FROM recharges r
@@ -31,7 +31,7 @@ export async function findByPhoneNumber(number: string) {
 }
 
 export async function findByPhoneId(phoneId: number) {
-  const result = await db.query(
+  const result = await db.query<RechargeGetId>(
     `SELECT id, amount, created_at FROM recharges WHERE phone_id = $1`,
     [phoneId]
   );
